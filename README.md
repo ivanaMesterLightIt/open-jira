@@ -10,3 +10,10 @@ docker-compose up -d
 ```
 mongodb://localhost:27017/entriesdb
 ```
+
+## Llenar la base de datos con información de pruebas
+
+Llamar: 
+```
+    http://localhost:3000/api/seed
+```
