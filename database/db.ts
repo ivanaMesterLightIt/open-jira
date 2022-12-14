@@ -9,20 +9,20 @@ import { idText } from 'typescript';
  */
 
 
-const mongooConection = {
+const mongoConection = {
     isConected: 0
 }
 
 export const connect = async () => {
-    if(mongooConection.isConected) {
+    if(mongoConection.isConected) {
         console.log('ya estamos conectados');
         return;
     }
 
     if(mongoose.connections.length > 0){
-        mongooConection.isConected = mongoose.connections[0].readyState;
+        mongoConection.isConected = mongoose.connections[0].readyState;
 
-        if(mongooConection.isConected === 1){
+        if(mongoConection.isConected === 1){
             console.log('Usando conexion anterior');
             return;
         }
@@ -31,7 +31,7 @@ export const connect = async () => {
     }
 
     await mongoose.connect(process.env.MONGO_URL || '');
-    mongooConection.isConected = 1;
+    mongoConection.isConected = 1;
     console.log('conectado a mongo db:', '....');
 
 }
@@ -40,8 +40,10 @@ export const disconnect = async () => {
 
     if(process.env.NODE_ENV === 'development') return;
     
-    if(mongooConection.isConected === 0) return ;
+    if(mongoConection.isConected === 0) return ;
     
     await mongoose.disconnect();
+    mongoConection.isConected = 0;
+
     console.log('Desconectado de MongoDB');
 }
